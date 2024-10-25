@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from .forms import CreateUserForm, LoginForm
+from .forms import CreateUserForm, LoginForm, CreateRecordForm
 
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
+from .models import Record
 
 # Create your views here.
 
@@ -18,7 +20,7 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            #return redirect('')
+            return redirect('my-login')
 
     context = {'form': form}
 
@@ -39,11 +41,26 @@ def my_login(request):
 
             if user is not None:
                 auth.login(request, user)
-                return redirect('')
+                return redirect('dashboard')
     
     context = {'login_form':form}
     return render(request,'website/my-login.html', context=context)
 
 def logout(request):
     auth.logout(request)
-    return redirect('')
+    return redirect("my-login")
+
+@login_required(login_url='my-login')
+def dashboard(request):
+
+    form = CreateRecordForm()
+    if request.method == "POST":
+        form = CreateRecordForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard")
+        
+    context = {'create_form': form}
+    return render(request, 'website/dashboard.html', context=context)
+
