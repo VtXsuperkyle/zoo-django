@@ -15,3 +15,6 @@ class Record(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name
+    
+class zoo_booking(models.Model):
+    creation_data = models.DateTimeField(auto_now_add = True)

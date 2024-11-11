@@ -27,7 +27,11 @@ body, html {
     height: 1200px;
 }
 
-.container div{
+.info{
     height:500px;
     font-size: 50px;
+}
+
+.text-center{
+    height: 500px;
 }
