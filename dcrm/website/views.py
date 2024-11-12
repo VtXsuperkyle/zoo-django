@@ -4,7 +4,7 @@ from .forms import CreateUserForm, LoginForm, CreationRecordForm
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from .models import Record
+from .models import zoo_user
 
 # Create your views here.
 
@@ -67,7 +67,7 @@ def create_record(request):
 @login_required(login_url='my-login')
 def dashboard(request):
 
-    my_records = Record.objects.all()
+    my_records = zoo_user.objects.all()
     context = {'records': my_records}
 
     return render(request, 'website/dashboard.html', context=context)
