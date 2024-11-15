@@ -1,16 +1,16 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-
+from .models import zoo_user
 from django import forms
 from django.forms.widgets import PasswordInput, TextInput
 
-from .models import Record
+from .models import zoo_user
 
 # - Register or create a user
 class CreateUserForm(UserCreationForm):
 
     class Meta:
-        model = User
+        model = zoo_user
         fields = ['username', 'password1', 'password2']
 
 
@@ -22,5 +22,5 @@ class LoginForm(AuthenticationForm):
 # - add record
 class CreationRecordForm(forms.ModelForm):
     class Meta:
-        model = Record
+        model = zoo_user
         fields = ['first_name', 'last_name', 'email', 'phone', 'address','city']

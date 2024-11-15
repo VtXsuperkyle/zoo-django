@@ -61,7 +61,7 @@ def create_record(request):
             form.save()
             return redirect("dashboard")
         
-    context = {'create_form': form}
+     = {'create_form': form}
     return render(request, 'website/create-record.html', context=context)
 
 @login_required(login_url='my-login')
