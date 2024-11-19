@@ -111,7 +111,7 @@ def hotel(request):
 
             obj.save() #save to database
 
-            messages.success(request, "Hotel booked successfully!")
+            #messages.success(request, "Hotel booked successfully!")
             return redirect('')
         else:
             print("there was a problem with the form")
