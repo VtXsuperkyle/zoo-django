@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CreateUserForm, LoginForm, CreationRecordForm
+from .forms import CreateUserForm, LoginForm, CreationRecordForm, Hotel_Booking_form
 
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
@@ -75,13 +75,13 @@ def dashboard(request):
 @login_required(login_url='my-login')
 def hotel(request):
 
-    form = Hotel_Booking_Form()
+    form = Hotel_Booking_form()
     
     if request.method =="POST":
         updated_request = request.POST.copy()
         updated_request.update({'hotel_user_id_id': request.user})
 
-        form = Hotel_Booking_Form(updated_request)
+        form = Hotel_Booking_form(updated_request)
     
         if form.is_valid():
             obj = form.save(commit=False) #return an object without saving to the DB
