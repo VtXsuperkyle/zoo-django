@@ -25,6 +25,10 @@ class CreationRecordForm(forms.ModelForm):
         model = zoo_user
         fields = ['first_name', 'last_name', 'email', 'phone', 'address','city']
 
+class UpdateRecordForm(forms.ModelForm):
+        class Meta:
+            model = Record
+            fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city']
 class Hotel_Booking_form(forms.ModelForm):
 
     class Meta:
