@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect
-from .forms import CreateUserForm, LoginForm, CreationRecordForm, Hotel_Booking_form
+from .forms import CreateUserForm, LoginForm, CreationRecordForm, UpdateRecordForm,Hotel_Booking_form
 
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from .models import zoo_user
-
+#from .models import Record
 # Create your views here.
 
 
 
 def home(request):
     return render(request, 'website/index.html')
+
 
 def register(request):
     form = CreateUserForm()
@@ -46,9 +47,11 @@ def my_login(request):
     context = {'login_form':form}
     return render(request,'website/my-login.html', context=context)
 
+
 def logout(request):
     auth.logout(request)
     return redirect("my-login")
+
 
 @login_required(login_url='my-login')
 def create_record(request):
@@ -64,6 +67,39 @@ def create_record(request):
     {'create_form': form}
     return render(request, 'website/create-record.html', context=context)
 
+
+@login_required(login_url='my-login')
+def update_record(request, pk):
+
+    record = Record.objects.get(id=pk)
+    form= UpdateRecordForm(instance=record)
+
+    if request.method == "POST":
+        form = UpdateRecordForm(request.POST, instance=record)
+
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard")
+        
+    context = {'update_form': form}
+    return render(request, 'website/update-record.html')
+
+
+@login_required(login_url='my-login')
+def singular_record(request, pk):
+    one_record = Record.objects.get(id=pk)
+    context = {'record':one_record}
+    return render(request, 'website/view-record.html', context=context)
+
+
+@login_required(login_url='my-login')
+def delete_record(request,pk):
+    record = Record.objects.get(id=pk)
+    record.delete()
+
+    return redirect("dashboard")
+
+
 @login_required(login_url='my-login')
 def dashboard(request):
 
@@ -71,6 +107,7 @@ def dashboard(request):
     context = {'records': my_records}
 
     return render(request, 'website/dashboard.html', context=context)
+
 
 @login_required(login_url='my-login')
 def hotel(request):
@@ -120,3 +157,5 @@ def hotel(request):
     context = {'form': form}
 
     return render(request, 'website/hotel.html', context=context)
+
+

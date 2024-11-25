@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import zoo_user,HotelBooking
 from django import forms
 from django.forms.widgets import PasswordInput, TextInput
+from .models import zoo_user
 
 from .models import zoo_user
 
@@ -27,7 +28,7 @@ class CreationRecordForm(forms.ModelForm):
 
 class UpdateRecordForm(forms.ModelForm):
         class Meta:
-            model = Record
+            model = zoo_user
             fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city']
 class Hotel_Booking_form(forms.ModelForm):
 
