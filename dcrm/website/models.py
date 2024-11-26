@@ -8,14 +8,17 @@ class zoo_user(AbstractUser):
     phone = models.CharField(max_length=14, blank=True)
     city = models.CharField(max_length=50, blank=True)
     
-class zoo_booking(models.Model):
-    creation_data = models.DateTimeField(auto_now_add = True)
-    first_name = models.CharField(max_length = 100)
-    last_name = models.CharField(max_length = 100)
-    email = models.CharField(max_length = 255)
-    Date = models.DateField()
-    Time = models.TimeField()
-    Price = models.FloatField(max_length = 5)
+class ZooBooking(models.Model):
+    booking_id = models.AutoField(primary_key=True, editable=False)
+    zoo_user_id = models.ForeignKey(zoo_user, on_delete=models.CASCADE)
+    zoo_booking_date = models.DateField(auto_now_add=True)
+    zoo_booking_date_arrive = models.DateField()
+    zoo_booking_date_leave = models.DateField()
+    zoo_booking_adults = models.IntegerField(default=0)
+    zoo_booking_children = models.IntegerField(default=0)
+    zoo_booking_oap = models.IntegerField(default=0)
+    zoo_total_cost = models.FloatField(default=0)
+    zoo_points = models.IntegerField(default=0)
     
 class HotelBooking(models.Model):
     booking_id = models.AutoField(primary_key=True, editable=False)

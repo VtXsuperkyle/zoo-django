@@ -4,7 +4,7 @@ from .forms import CreateUserForm, LoginForm, CreationRecordForm, UpdateRecordFo
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from .models import zoo_user
+from .models import zoo_user,HotelBooking,ZooBooking
 #from .models import Record
 # Create your views here.
 
@@ -69,9 +69,9 @@ def create_record(request):
 
 
 @login_required(login_url='my-login')
-def update_record(request, pk):
+def update_record(request):
 
-    record = Record.objects.get(id=pk)
+    #record = Record.objects.get(id=pk)
     form= UpdateRecordForm(instance=record)
 
     if request.method == "POST":
@@ -102,9 +102,11 @@ def delete_record(request,pk):
 
 @login_required(login_url='my-login')
 def dashboard(request):
-
-    my_records = zoo_user.objects.all()
-    context = {'records': my_records}
+        
+    my_hotel_bookings = HotelBooking.objects.filter(hotel_user_id = request.user.id)
+    my_zoo_bookings = ZooBooking.objects.filter(zoo_user_id = request.user.id)
+    context = {'hotel_records': my_hotel_bookings,
+               'zoo_records': my_zoo_bookings,}
 
     return render(request, 'website/dashboard.html', context=context)
 
@@ -139,7 +141,7 @@ def hotel(request):
             hotel_points = int(hotel_total_cost / 20)
             print("Hotel Points: ", hotel_points)
             print("printing booking costs: ", hotel_total_cost)
-
+            zoo_user.points=hotel_points
 
             #set the values in the data
             obj.hotel_points = hotel_points
